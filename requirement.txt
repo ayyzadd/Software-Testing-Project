@@ -1,0 +1,27 @@
+# Core dependencies for both systems
+requests>=2.26.0
+coverage>=6.0.0
+
+# BLE Smart Lock dependencies
+bleak>=0.14.0
+nicegui>=1.0.0
+pyserial>=3.5
+asyncio>=3.4.3
+
+# Django Web Application dependencies
+django==4.1.12
+python-dotenv==1.0.0
+django-admin-datta==1.0.10
+django-dynamic-datatb==1.0.25
+django-api-generator==1.0.17
+django-debug-toolbar==4.2.0
+whitenoise==6.5.0
+gunicorn==21.2.0
+bs4>=0.0.1
+beautifulsoup4>=4.11.1
+
+# Optional for PostgreSQL support
+# psycopg2-binary>=2.9.3
+
+# Optional for MySQL support
+# mysqlclient>=2.1.0
