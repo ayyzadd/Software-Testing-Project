@@ -1,8 +1,10 @@
 # Software-Testing-Project
 Unified Fuzzing Framework for Django and BLE Applications
 
-Directory Structure
-fuzzing-project/
+## Folder Structure
+
+```plaintext
+Software-Testing-Project/
 ├── unified_fuzzer.py         # Main unified fuzzer
 ├── requirements.txt          # Combined requirements
 ├── ble/                      # BLE Smart Lock files
@@ -17,37 +19,52 @@ fuzzing-project/
 │   ├── input.json            # Django test seeds
 │   └── ...                   # Other Django files
 └── results/                  # Fuzzing results directory
+```
 
-Setup Instructions
+## Setup Instructions
 
-1. Installation
-# Install dependencies
+1. Install dependencies
+```bash
 pip install -r requirements.txt
+```
 
 2. Setup Django Application
-# Navigate to the Django directory
+```bash
 cd django
+```
 
-# Start the Django server
+3. Start the Django server
+```bash
 python manage.py runserver
+```
 
-3. Setup BLE Smart Lock
-# Navigate to the BLE directory
+4. Setup BLE Smart Lock
+```bash
 cd ble
+```
 
-# For Windows:
+5. For Windows:
+```bash
 .\install.bat
+```
 
-# For macOS/Linux:
+6. For macOS/Linux:
+```bash
 bash install.sh
+```
 
-Running the Unified Fuzzer
+## Running the Unified Fuzzer
 
-# Fuzz both Django and BLE targets
+1. Fuzz both Django and BLE targets
+```bash
 python unified_fuzzer.py --target both
+```
 
-# Fuzz only Django
+2. Fuzz only Django
+```bash
 python unified_fuzzer.py --target django
-
-# Fuzz only BLE
+```
+3. Fuzz only BLE
+```bash
 python unified_fuzzer.py --target ble
+```
