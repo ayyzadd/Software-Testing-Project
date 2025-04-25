@@ -1,0 +1,263 @@
+[
+  {
+    "input": {
+      "name": "Product1",
+      "info": "Desc1",
+      "price": "{}"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10ddcfa0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "invalid_type",
+    "request_id": 1,
+    "timestamp": "2025-04-24T18:38:40.689318",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10ddcfa0>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "Product1",
+      "info": "Desc1",
+      "price": "20",
+      "divide_by": "0"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10e2cd00>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "division_by_zero",
+    "request_id": 2,
+    "timestamp": "2025-04-24T18:38:40.692636",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10e2cd00>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "Product1",
+      "info": "Desc1",
+      "price": "2147483647"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe004c6d0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "boundary_value",
+    "request_id": 3,
+    "timestamp": "2025-04-24T18:38:40.696288",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe004c6d0>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "Product1",
+      "info": "Desc1",
+      "price": "100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe00560a0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "extremely_long_value",
+    "request_id": 4,
+    "timestamp": "2025-04-24T18:38:40.699056",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe00560a0>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "TestItem",
+      "price": "100",
+      "info": "Sample",
+      "extra_field": "Something extra,}"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10e2ceb0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "malformed_json",
+    "request_id": 5,
+    "timestamp": "2025-04-24T18:38:40.701051",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10e2ceb0>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "Produ(t1",
+      "info": "Desc1",
+      "price": "20"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10e2c2e0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "flip_char",
+    "request_id": 6,
+    "timestamp": "2025-04-24T18:38:40.704129",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10e2c2e0>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "Product1",
+      "price": "20"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe0056a30>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "remove_field",
+    "request_id": 7,
+    "timestamp": "2025-04-24T18:38:40.706373",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe0056a30>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "Product1",
+      "info": "Desc1",
+      "price": "nan"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe0062400>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "boundary_value",
+    "request_id": 8,
+    "timestamp": "2025-04-24T18:38:40.708797",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe0062400>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "Product1",
+      "info": "Desc1",
+      "price": "20",
+      "divide_by": "0"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe0062d90>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "division_by_zero",
+    "request_id": 9,
+    "timestamp": "2025-04-24T18:38:40.711336",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe0062d90>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "Product1",
+      "info": "Desc1",
+      "price": "100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe00565b0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "extremely_long_value",
+    "request_id": 10,
+    "timestamp": "2025-04-24T18:38:40.714960",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe00565b0>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "TestItem",
+      "price": "100"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe00721c0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "remove_field",
+    "request_id": 11,
+    "timestamp": "2025-04-24T18:38:40.719219",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe00721c0>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "info": "Sample",
+      "price": "100"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe006ed60>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "remove_field",
+    "request_id": 12,
+    "timestamp": "2025-04-24T18:38:40.721685",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe006ed60>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "TestI*em",
+      "info": "Sample",
+      "price": "100"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe006e100>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "flip_char",
+    "request_id": 13,
+    "timestamp": "2025-04-24T18:38:40.724132",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe006e100>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "TestItem",
+      "info": "Sample",
+      "price": "b''"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe006d9d0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "invalid_type",
+    "request_id": 14,
+    "timestamp": "2025-04-24T18:38:40.726284",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe006d9d0>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "TestItem",
+      "info": "Sample",
+      "price": "100",
+      "divide_by": "0"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10ddc4f0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "division_by_zero",
+    "request_id": 15,
+    "timestamp": "2025-04-24T18:38:40.730207",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10ddc4f0>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "TestItem",
+      "info": "Sample",
+      "price": "1e-06"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10e2ce20>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "boundary_value",
+    "request_id": 16,
+    "timestamp": "2025-04-24T18:38:40.732666",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10e2ce20>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "Tes}Item",
+      "info": "Sample",
+      "price": "100"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10db89d0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "flip_char",
+    "request_id": 17,
+    "timestamp": "2025-04-24T18:38:40.735116",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10db89d0>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "TestItem",
+      "info": "Sample",
+      "price": "1e-06"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe004cb50>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "boundary_value",
+    "request_id": 18,
+    "timestamp": "2025-04-24T18:38:40.737080",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe004cb50>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "TestItem",
+      "info": "{1, 2, 3}",
+      "price": "100"
+    },
+    "status_code": "exception",
+    "response": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe006db50>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+    "mutation_type": "invalid_type",
+    "request_id": 19,
+    "timestamp": "2025-04-24T18:38:40.738970",
+    "error": "HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe006db50>: Failed to establish a new connection: [Errno 61] Connection refused'))"
+  },
+  {
+    "input": {
+      "name": "TestItem",
+      "info": "Sample",
+      "price": "inf"
+    },
+    "status_code": "exception",
+    "response": "Out of range float values are not JSON compliant",
+    "mutation_type": "boundary_value",
+    "request_id": 20,
+    "timestamp": "2025-04-24T18:38:40.740931",
+    "error": "Out of range float values are not JSON compliant"
+  }
+]

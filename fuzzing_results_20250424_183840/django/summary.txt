@@ -1,0 +1,66 @@
+Django Fuzzing Summary Report
+===========================
+Generated: 2025-04-24T18:38:40.746215
+Total Requests: 20
+Successful Responses: 0
+Error Responses: 20
+Failures Collected: 20
+
+Failures by type:
+
+Status Code Distribution:
+  exception: 20 occurrences
+
+Sample Failures:
+
+--- Failure #1 ---
+Mutation: invalid_type
+Status: exception
+Input: {
+  "name": "Product1",
+  "info": "Desc1",
+  "price": "{}"
+}
+Response: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10ddcfa0>: Failed...
+
+--- Failure #2 ---
+Mutation: division_by_zero
+Status: exception
+Input: {
+  "name": "Product1",
+  "info": "Desc1",
+  "price": "20",
+  "divide_by": "0"
+}
+Response: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10e2cd00>: Failed...
+
+--- Failure #3 ---
+Mutation: boundary_value
+Status: exception
+Input: {
+  "name": "Product1",
+  "info": "Desc1",
+  "price": "2147483647"
+}
+Response: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe004c6d0>: Failed...
+
+--- Failure #4 ---
+Mutation: extremely_long_value
+Status: exception
+Input: {
+  "name": "Product1",
+  "info": "Desc1",
+  "price": "100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+}
+Response: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fabe00560a0>: Failed...
+
+--- Failure #5 ---
+Mutation: malformed_json
+Status: exception
+Input: {
+  "name": "TestItem",
+  "price": "100",
+  "info": "Sample",
+  "extra_field": "Something extra,}"
+}
+Response: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /datatb/product/add/ (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fac10e2ceb0>: Failed...

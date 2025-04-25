@@ -1,0 +1,12 @@
+{
+  "django": {
+    "total_tests": 20,
+    "crashes": 20,
+    "unique_issues": 0
+  },
+  "ble": {
+    "total_tests": 0,
+    "crashes": 0,
+    "unique_issues": 0
+  }
+}

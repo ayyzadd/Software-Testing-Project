@@ -57,14 +57,14 @@ bash install.sh
 
 1. Fuzz both Django and BLE targets
 ```bash
-python unified_fuzzer.py --target both
+python test_driver_unified.py
 ```
 
 2. Fuzz only Django
 ```bash
-python unified_fuzzer.py --target django
+python test_driver_unified.py --target django
 ```
 3. Fuzz only BLE
 ```bash
-python unified_fuzzer.py --target ble
+python test_driver_unified.py --target ble 
 ```
