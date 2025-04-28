@@ -22,6 +22,16 @@ Software-Testing-Project/
 └── results/                  # Fuzzing results directory
 ```
 
+## Tech Stack
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-4.1.12-092E20?logo=django&logoColor=white)
+![Bluetooth LE](https://img.shields.io/badge/Bluetooth%20LE-5.0-0082FC?logo=bluetooth&logoColor=white)
+![Asyncio](https://img.shields.io/badge/Asyncio-3.4.3+-0082FC?logo=python&logoColor=white)
+![Bleak](https://img.shields.io/badge/Bleak-0.14.0-303030?logo=bluetooth&logoColor=white)
+![NiceGUI](https://img.shields.io/badge/NiceGUI-1.0.0+-00BFFF?logo=python&logoColor=white)
+![Requests](https://img.shields.io/badge/Requests-2.26.0-009688?logo=python&logoColor=white)
+![Coverage](https://img.shields.io/badge/Coverage-6.0.0-83B81A?logo=python&logoColor=white)
+
 ## Setup Instructions
 
 1. Install dependencies
