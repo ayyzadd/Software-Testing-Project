@@ -15,6 +15,7 @@ import traceback
 import requests
 from collections import defaultdict
 from pathlib import Path
+from threading import Lock, Thread
 
 # Ensure BLE components are in the path
 sys.path.append(str(Path(__file__).parent / "ble"))
@@ -73,6 +74,9 @@ class UnifiedFuzzer:
         if config:
             self.config.update(config)
         
+        # Store forced mutation if provided
+        self.forced_mutation = forced_mutation
+
         # Create timestamp for results
         timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
         self.output_dir = f"{self.config['output_dir']}_{timestamp}"
@@ -203,67 +207,119 @@ class UnifiedFuzzer:
             
             # Track what mutation was applied for debugging
             mutation_type = random.choice([
-                'flip_char', 
-                'remove_field', 
-                'invalid_type', 
-                'boundary_value', 
-                'division_by_zero', 
-                'malformed_json',
-                'empty_value',
+                'as_number', 
+                'class_object_injection', 
+                'json_recursive_self_ref', 
+                'deadlock', 
+                'encoding_crash', 
+                'infinite_float',
+                'illegal_json_structure',
+                'non_existent_product',
+                'null_info',
                 'extremely_long_value'
             ])
             
             # Record the mutation type for analysis
             mutated['_mutation_type'] = mutation_type
 
-            if mutation_type == 'flip_char' and 'name' in mutated:
-                chars = list(mutated['name'])
-                if chars:
-                    pos = random.randint(0, len(chars) - 1)
-                    chars[pos] = random.choice('!@#$%^&*()_+-=[]{}|;:,.<>?')  # Flip a character
-                    mutated['name'] = ''.join(chars)
+            if mutation_type == 'as_number':
+                field = random.choice(['name', 'info'])
+                if field == 'name' or field == 'info':
+                    mutated[field] = random.randint(1, 10000)
             
-            elif mutation_type == 'remove_field':
+            elif mutation_type == 'price_as_boolean':
                 field = random.choice(['name', 'info', 'price'])
-                mutated.pop(field, None)
+                if field == 'name' or field == 'info' or field=='price':
+                    mutated[field] = random.choice([True, False])
             
-            elif mutation_type == 'invalid_type':
+            elif mutation_type == 'name_as_dict':
                 field = random.choice(['name', 'info', 'price'])
-                invalid_values = [None, [], {}, True, "".encode('utf-8'), set([1, 2, 3]), (1, 2, 3)]
-                mutated[field] = random.choice(invalid_values)
-            
-            elif mutation_type == 'boundary_value' and 'price' in mutated:
-                mutated['price'] = random.choice([
-                    -1,          # Negative price
-                    2**31-1,     # Large number
-                    "💰💰💰",     # Unexpected data type
-                    float('nan'),# Not a number
-                    0.000001,    # Very small number
-                    float('inf'),# Infinity
-                ])
+                if field == 'name' or field == 'info' or field=='price':
+                    mutated[field] = {"first": "John", "last": "Doe"}
 
-            elif mutation_type == 'division_by_zero':
-                # Introducing a division by zero case
-                mutated['divide_by'] = 0
-            
-            elif mutation_type == 'malformed_json':
-                # For malformed JSON testing, we'll keep a valid structure but with strange values
-                mutated = {
-                    "name": "TestItem", 
-                    "price": 100,
-                    "info": "Sample", 
-                    "extra_field": "Something extra,}",
-                    "_mutation_type": mutation_type
+            elif mutation_type == 'deadlock':
+                # Simulate deadlock/hang by acquiring locks in opposing order
+                lock1 = Lock()
+                lock2 = Lock()
+
+                def thread1():
+                    with lock1:
+                        time.sleep(1)
+                        with lock2:
+                            pass
+
+                def thread2():
+                    with lock2:
+                        time.sleep(1)
+                        with lock1:
+                            pass
+
+                t1 = Thread(target=thread1)
+                t2 = Thread(target=thread2)
+
+                t1.start()
+                t2.start()
+
+                t1.join(timeout=3)
+                t2.join(timeout=3)
+
+                # Log deadlock simulation
+                print("⚠️ Simulated deadlock. Request will not be sent.")
+
+                # Return a marker dict to skip sending the request
+                return {
+                    "_mutation_type": "deadlock",
+                    "_skip_request": True,
+                    "name": "Deadlock Dummy",
+                    "info": "Simulated deadlock input",
+                    "price": 20
                 }
-                
-            elif mutation_type == 'empty_value':
+
+            elif mutation_type == 'json_recursive_self_ref':
                 field = random.choice(['name', 'info', 'price'])
-                mutated[field] = ""
+                if field == 'name' or field == 'info' or field=='price':
+                    mutated[field] = mutated
+            
+            elif mutation_type == 'class_object_injection':
+                class Dummy:
+                    def __init__(self): pass
+                field = random.choice(['name', 'info', 'price'])
+                if field == 'name' or field == 'info' or field=='price':
+                    mutated[field] = Dummy()
                 
-            elif mutation_type == 'extremely_long_value':
-                mutated['price'] = 10 ** 200
+            elif mutation_type == 'encoding_crash':
+                field = random.choice(['name', 'info', 'price'])
+                if field == 'name' or field == 'info' or field=='price':
+                    mutated[field] = 'abc\uDC80'
+                
+            elif mutation_type == 'infinite_float':
+                field = random.choice(['name', 'info', 'price'])
+                if field == 'name' or field == 'info' or field=='price':
+                    mutated[field] = float('inf')
+            
+            elif mutation_type == 'illegal_json_structure':
+                field = random.choice(['name', 'info', 'price'])
+                if field == 'name' or field == 'info' or field=='price':
+                    mutated[field] = {'set': {1, 2, 3}}
+
+            elif mutation_type == 'non_existent_product':
+                product_id = 999999  # A non-existent product ID
+                mutated['pk'] = product_id
+
+            elif mutation_type == 'null_info':
+                field = random.choice(['name', 'info', 'price'])
+                if field == 'name' or field == 'info' or field=='price':
+                    mutated[field] = None
+
+            elif mutation_type == 'extremely_large_value':
+                field = random.choice(['name', 'info', 'price'])
+                if field == 'name' or field == 'info':
+                    mutated[field] = "X" * (3 * 1024 * 1024)
+                elif field == 'price':
+                    mutated[field] = 10 ** 200
 
             return mutated
+
             
         elif target == 'ble':
             mutation_type = random.choice(["bit_flip", "remove_field", "invalid_type", "boundary_value"])
@@ -313,6 +369,29 @@ class UnifiedFuzzer:
             if "[Error]" in log_line or "Guru Meditation" in log_line:
                 return True
             return False
+        
+    def log_time(self, target, mutation_type, time_taken):
+        """Log timing information for each mutation type"""
+        log_path = os.path.join(self.output_dir, f"{target}_mutation_times.json")
+        
+        entry = {
+            "mutation_type": mutation_type,
+            "time_taken": time_taken,
+            "timestamp": datetime.datetime.now().isoformat()
+        }
+
+        # Check if file exists
+        if not os.path.exists(log_path):
+            # If it doesn't exist, create a new file and write the entry
+            with open(log_path, 'w') as f:
+                json.dump([entry], f, indent=2)
+        else:
+            # If the file exists, append the new entry
+            with open(log_path, 'r+') as f:
+                data = json.load(f)
+                data.append(entry)
+                f.seek(0)
+                json.dump(data, f, indent=2)
     
     def save_results(self, target):
         """Save results for the specified target"""
@@ -429,9 +508,20 @@ class UnifiedFuzzer:
         request_id = self.django_request_counter
         
         try:
+            # Check if this is a skipped request (e.g., for deadlock simulation)
+            if test_input.get('_skip_request', False):
+                print(f"[!] Skipping request #{request_id} due to {test_input.get('_mutation_type')} simulation")
+                return {
+                    'response': None,
+                    'mutation_type': test_input.get('_mutation_type', 'unknown'),
+                    'request_id': request_id,
+                    'elapsed': 0,
+                    'skipped': True
+                }
             # Remove the mutation tracking field before sending
             send_input = test_input.copy()
             mutation_type = send_input.pop('_mutation_type', 'unknown')
+            send_input.pop('_skip_request', None)  # Remove the skip flag if present
             
             # First, properly serialize the input for JSON
             serializable_input = {k: self.django_safe_json_serialize(v) for k, v in send_input.items()}
@@ -464,23 +554,25 @@ class UnifiedFuzzer:
             print(f"Status: {response.status_code}")
             print(f"Time: {elapsed:.2f}s")
             print(f"Headers: {dict(response.headers)}")
-            print(f"Content: {response.text[:200]}")
-            if len(response.text) > 200:
-                print("...")
+
+            # Process response content
+            if "<html" in response.text.lower():
+                if "request body exceeded" in response.text.lower():
+                    simplified_error_message = "Memory error: request data too large"
+                else:
+                    simplified_error_message = "Error response in HTML format - details omitted"
+            else:
+                simplified_error_message = response.text
                 
+            print(f"Content: {simplified_error_message[:200]}")
+            if len(simplified_error_message) > 200:
+                print("...")
+
             # Check for error responses
             if response.status_code >= 400:
                 self.django_error_counter += 1
                 print(f"⚠️ ERROR DETECTED: Status {response.status_code}")
 
-                if "<html" in response.text.lower():
-                    if "request body exceeded" in response.text.lower():
-                        simplified_error_message = "Memory error: request data too large"
-                    else:
-                        simplified_error_message = "Error response in HTML format - details omitted"
-                else:
-                    simplified_error_message = response.text
-                
                 # Add to failure queue
                 failure_record = {
                     'input': serializable_input,
@@ -490,7 +582,7 @@ class UnifiedFuzzer:
                     'request_id': request_id,
                     'timestamp': datetime.datetime.now().isoformat()
                 }
-                
+
                 self.django_failure_queue.append(failure_record)
                 
                 # Track failures by type
@@ -670,6 +762,12 @@ class UnifiedFuzzer:
                 for energy_level in range(energy):
                     try:
                         mutated_input = self.mutate_input('django', test_input)
+                        
+                        # Skip sending the request if the mutation simulates conditions like deadlock
+                        if mutated_input.get('_skip_request', False):
+                            print(f"Skipping request execution due to {mutated_input.get('_mutation_type')} simulation")
+                            continue
+                            
                         result = await self.django_execute_test(mutated_input)
                         
                         if not result.get('response'):
@@ -726,8 +824,16 @@ class UnifiedFuzzer:
         self.ble_test_counter += 1
         
         try:
+            start_time = time.time()
             print(f"[!] --> Command:  {command}")
             res = await self.ble_client.write_command(command)
+            elapsed = time.time() - start_time
+            
+            # Log timing information
+            if isinstance(command, list):
+                mutation_type = "bit_flip"  # Default type for BLE commands
+                self.log_time('ble', mutation_type, elapsed)
+            
             await asyncio.sleep(0)  # No delay between commands
 
             # Get logs
@@ -742,7 +848,8 @@ class UnifiedFuzzer:
             return {
                 'response': res,
                 'log_line': last_line,
-                'all_logs': logs
+                'all_logs': logs,
+                'elapsed': elapsed
             }
         except Exception as e:
             error_message = f"[!] Exception: {e}"
@@ -751,7 +858,8 @@ class UnifiedFuzzer:
                 'response': None,
                 'log_line': error_message,
                 'error': str(e),
-                'all_logs': []
+                'all_logs': [],
+                'elapsed': 0
             }
     
     async def ble_handle_crash(self):
@@ -959,6 +1067,8 @@ def parse_arguments():
                        help='Path to Django input seeds file')
     parser.add_argument('--ble-input', type=str, default='ble/Input1.json',
                        help='Path to BLE input seeds file')
+    parser.add_argument('--forced-mutation', type=str, default=None,
+                       help='Force a specific mutation type for Django target')
     
     return parser.parse_args()
 
@@ -980,7 +1090,7 @@ async def main():
     }
     
     # Create and run the unified fuzzer
-    fuzzer = UnifiedFuzzer(config)
+    fuzzer = UnifiedFuzzer(config, args.forced_mutation)
     await fuzzer.run()
 
 

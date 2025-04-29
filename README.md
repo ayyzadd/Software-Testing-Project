@@ -75,7 +75,13 @@ python test_driver_unified.py
 ```bash
 python unified_test_driver.py --target django
 ```
-3. Fuzz only BLE
+
+3. Run Django-only with a specific mutation type
+```bash
+python unified_fuzzer.py --target django --forced-mutation class_object_injection
+```
+
+4. Fuzz only BLE
 ```bash
 python unified_test_driver.py --target ble 
 ```
