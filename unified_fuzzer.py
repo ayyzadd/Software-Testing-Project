@@ -216,7 +216,13 @@ class UnifiedFuzzer:
                 'illegal_json_structure',
                 'non_existent_product',
                 'null_info',
-                'extremely_long_value'
+                'extremely_long_value',
+                'flip_char',
+                'remove_field',
+                'boundary_value',
+                'malformed_json',
+                'empty_value',
+                
             ])
             
             # Record the mutation type for analysis
@@ -226,7 +232,41 @@ class UnifiedFuzzer:
                 field = random.choice(['name', 'info'])
                 if field == 'name' or field == 'info':
                     mutated[field] = random.randint(1, 10000)
+
+            elif mutation_type == 'flip_char' and 'name' in mutated:
+                chars = list(mutated['name'])
+                if chars:
+                    pos = random.randint(0, len(chars) - 1)
+                    chars[pos] = random.choice('!@#$%^&*()_+-=[]{}|;:,.<>?')  # Flip a character
+                    mutated['name'] = ''.join(chars)
             
+            elif mutation_type == 'remove_field':
+                field = random.choice(['name', 'info', 'price'])
+                mutated.pop(field, None)
+            
+            elif mutation_type == 'boundary_value' and 'price' in mutated:
+                mutated['price'] = random.choice([
+                    -1,          
+                    2**31-1,     
+                    "💰💰💰",     
+                    float('nan'),
+                    0.000001,   
+                    float('inf'),
+                ])
+            
+            elif mutation_type == 'malformed_json':
+                mutated = {
+                    "name": "TestItem", 
+                    "price": 100,
+                    "info": "Sample", 
+                    "extra_field": "Something extra,}",
+                    "_mutation_type": mutation_type
+                }
+                
+            elif mutation_type == 'empty_value':
+                field = random.choice(['name', 'info', 'price'])
+                mutated[field] = ""
+                
             elif mutation_type == 'price_as_boolean':
                 field = random.choice(['name', 'info', 'price'])
                 if field == 'name' or field == 'info' or field=='price':
